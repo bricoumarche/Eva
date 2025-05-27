@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Bouton Câlin</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #ffc0cb;
+      background-image: url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExdThtcWszN244eTNtc2dsemYxdnlvOXUzazgyeTI2aHVwd2k0aXFpciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3vem6xB4vIgcNtml3G/giphy.gif'); 
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    #hugButton {
+      padding: 15px 30px;
+      font-size: 18px;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      z-index: 1;
+    }
+    #hugButton:hover {
+      background-color: #ff85c1;
+    }
+    #hugGif {
+      display: none;
+      margin-top: 30px;
+      max-width: 80%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+    #soundCloudPlayer {
+      margin-top: 20px;
+      width: 100%;
+      max-width: 500px;
+      height: 166px;
+      display: none;
+    }
+  </style>
+  <script src="https://w.soundcloud.com/player/api.js"></script>
+</head>
+<body>
+
+  <button id="hugButton">🤗 Câlin</button>
+  <img id="hugGif" src="" alt="Câlin">
+  <iframe id="soundCloudPlayer" scrolling="no" frameborder="no" allow="autoplay"
+    src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/gmzfdnn/george-michael-careless&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true">
+  </iframe>
+
+  <script>
+    const hugButton = document.getElementById('hugButton');
+    const hugGif = document.getElementById('hugGif');
+    const soundCloudPlayer = document.getElementById('soundCloudPlayer');
+
+    const gifs = [
+      'https://media.giphy.com/media/l2QDM9Jnim1YVILXa/giphy.gif',
+      'https://media.giphy.com/media/od5H3PmEG5EVq/giphy.gif',
+      'https://media.giphy.com/media/143v0Z4767T15e/giphy.gif',
+      'https://media.giphy.com/media/3M4NpbLCTxBqU/giphy.gif',
+      'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExenBkN2RscDA3dTM3bGZjbmcxbndzbjR2MzBwN3R0NXpuNGFldXBpYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9d3LQ6TdV2Flo8ODTU/giphy.gif'
+    ];
+
+    let widget = null;
+    let widgetReady = false;
+
+    // On attend que l'iframe soit chargée
+    soundCloudPlayer.addEventListener('load', () => {
+      widget = SC.Widget(soundCloudPlayer);
+      widget.bind(SC.Widget.Events.READY, () => {
+        widgetReady = true;
+      });
+    });
+
+    hugButton.addEventListener('click', () => {
+      // Sélectionner un GIF aléatoire
+      const randomGif = gifs[Math.floor(Math.random() * gifs.length)];
+      hugGif.src = randomGif;
+      hugGif.style.display = 'block';
+
+      // Afficher le lecteur SoundCloud
+      soundCloudPlayer.style.display = 'block';
+
+      // Jouer la musique si le widget est prêt
+      if (widgetReady && widget) {
+        widget.play();
+      }
+    });
+  </script>
+
+</body>
+</html>
